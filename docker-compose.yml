@@ -5,7 +5,7 @@ services:
       - TZ=America/Sao_Paulo
       - DISPLAY_WIDTH=1024
       - DISPLAY_HEIGHT=768
-      - VNC_PASSWORD=mypassword
+      - VNC_PASSWORD_FILE=/run/secrets/vnc_password
     ports:
       - "5800:5800"
       - "5900:5900"
@@ -15,8 +15,15 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+    secrets:
+      - vnc_password
     networks:
       - swarm-net
+
+secrets:
+  vnc_password:
+    external: true
+    name: vnc_password
 
 networks:
   swarm-net:
